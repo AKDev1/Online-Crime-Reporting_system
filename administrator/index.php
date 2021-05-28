@@ -1,0 +1,106 @@
+
+<?php
+
+    include 'includes/overallheader.php';
+
+	if(!isset($_SESSION['email'])){
+		header('Location:../logout.php');
+	}
+
+?>
+  <div class="container">
+    <div id="header">
+        <div class="div1">
+            <img src="images/lock-open.png" style="position: relative; top: 3px;"> &nbsp; You are logged in as: <b><?php echo $_SESSION['email'];?></b>
+        </div>
+        <div class="div2">
+            <div class="logo"><img src="../images/india.png" width="70px"/>Crime Reporting System</div>
+        </div>
+    </div>
+    <?php include 'includes/menu.php'; ?>
+    <div class="clear"></div>
+
+    <div class="main">
+        <div class="heading">
+            <h1><img src="images/home.png" style="position: relative; " />&nbsp; Dashboard</h1>
+            <div class="clear"></div>
+        </div>
+        <div class="content">
+          <div class="row">
+           <div class="col-md-6">
+                    <div class="dashboard-content">
+                      <div class="dashboard-heading">Overview</div>
+                      <table style="margin-top:20px;">
+                          <tr>
+                              <td>Reported Crimes</td>
+                              <td class="right"><?php $db_conn -> getTotalCrimes(); ?></td>
+                          </tr>
+                          <tr>
+                              <td>Fire Acidents</td>
+                              <td class="right"> <?php $db_conn -> getTotalMissingPersons();?></td>
+                          </tr>
+                          <tr>
+                              <td>Car Crashes</td>
+                              <td class="right"><?php $db_conn -> getTotalMissingVehicles();?></td>
+                          </tr>
+                      </table>
+                    </div>
+           </div>
+           <div class="col-md-6">
+            <div class="dashboard-content">
+               <div class="dashboard-heading">Crimes</div>
+                <table style="margin-top:20px; width: 100%;">
+                     <?php
+                     	$db_conn -> getApplications();
+                     ?>
+               </table>
+            </div>
+           </div>
+          </div>
+          <div class="row">
+          	 <div class="col-md-6">
+                    <div class="dashboard-content">
+                      <div class="dashboard-heading">Car Crashes</div>
+                      <table width="100%" style="margin-top:20px;">
+                      	<?php
+                      	echo '<tr style="border-bottom:2px solid #000;">';
+
+                      	echo '<td text-align="center"><b>Report_ID</b></td>';
+                      	echo '<td text-align="center"><b>Action</b></td>';
+                      	echo '</tr>';
+
+                        	$db_conn -> getStollenVehicles();
+
+                        	//$db_conn -> getFoundVehicles();
+                        ?>
+                      </table>
+                    </div>
+           </div>
+           <div class="col-md-6">
+            <div class="dashboard-content">
+               <div class="dashboard-heading">Fire Accidents</div>
+                <table style="margin-top:20px; width: 100%;">
+                	<tr style="border-bottom:2px solid #000;">
+                		<td>Fire_ID</td>
+                      	<td><b>Address</b></td>
+                      	<td text-align="center"><b>Action</b></td>
+                     </tr>
+
+                     <?php
+                     	$db_conn -> getMissingPersons();
+						// $db_conn -> getFoundPersons();
+
+                     ?>
+               </table>
+            </div>
+           </div>
+          </div>
+
+        </div>
+       <div id="footer">
+           <p class="center"><b>Speak up. 2009-2014. Dashboard.</b></p>
+       </div>
+    </div>
+   </div>
+    </body>
+</html>
